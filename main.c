@@ -75,9 +75,10 @@ int main(void)
 
     /* Calculator variables */
     nk_bool start_new_calc_flag = nk_true;
+    nk_bool is_dividing_by_zero = nk_false;
     mpz_t operand_1m, operand_2m, result_m;
     static size_t number_of_digits_to_display = 0;
-    char text_to_display_on_screen[128] = "";
+    static char text_to_display_on_screen[128] = "";
     char* text;
     char* result_str;
     static char* box_buffer;
@@ -125,9 +126,7 @@ int main(void)
             nk_layout_row_static(ctx, 30, 215, 1);
             if (number_of_digits_to_display > 36)
             {
-                char text_tmp[128];
-                sprintf(text_tmp, "Wow %lu digits!", number_of_digits_to_display);
-                nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, text_tmp, 128, nk_filter_default);
+                nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, text_to_display_on_screen, 128, nk_filter_default);
             }            
             else
                 nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, box_buffer, number_of_digits_to_display + 2, nk_filter_default);
@@ -202,10 +201,8 @@ int main(void)
             nk_layout_row_static(ctx, 30, 40, 4);
             if (nk_button_label(ctx, "0"))
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "0");
-            if (nk_button_label(ctx, "."))
+            if (nk_button_label(ctx, ""))
             {
-                strcat(text, ".");
-                strcat(text_to_display_on_screen, ".");
             }
 
             if (nk_button_label(ctx, "="))
@@ -219,7 +216,20 @@ int main(void)
                 if (Operation == MULTIPLY)
                     mpz_mul(result_m, operand_1m, operand_2m);
                 else if (Operation == DIVIDE)
-                    mpz_div(result_m, operand_1m, operand_2m);
+                    {
+                        if (mpz_cmp_ui(operand_2m, 0) == 0) /* don't divide by 0 */
+                            {
+                                is_dividing_by_zero = nk_true;
+                                strcpy(text_to_display_on_screen, "");
+                                strcat(text_to_display_on_screen, "You are dividing by 0! Noooooo");
+                                printf("You are dividing by 0! Don't do it.\n");
+                            }
+                        else
+                            {
+                                mpz_div(result_m, operand_1m, operand_2m);
+                                is_dividing_by_zero = nk_false;
+                            }
+                    }
                 else if (Operation == SUBTRACT)
                     mpz_sub(result_m, operand_1m, operand_2m);
                 else if (Operation == POW)
@@ -242,7 +252,10 @@ int main(void)
                 if (Operation == MULTIPLY)
                     printf("%lu x %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
                 else if (Operation == DIVIDE)
-                    printf("%lu / %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
+                {
+                    if (is_dividing_by_zero == nk_false)
+                        printf("%lu / %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
+                }                
                 else if (Operation == SUBTRACT)
                     printf("%lu - %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
                 else if (Operation == POW)
@@ -253,7 +266,12 @@ int main(void)
                     printf("%lu! =\n", mpz_get_ui(operand_1m));
 
                 mpz_out_str(stdout,10,result_m); 
-                printf(" - Number_of_digits is %lu.\n", number_of_digits_to_display);
+                printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
+
+                if (number_of_digits_to_display > 36)
+                {
+                    sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
+                }
 
                 start_new_calc_flag = nk_true;
             }
@@ -279,5 +297,4 @@ int main(void)
     glfwTerminate();
     return 0;
 }
-
 
