@@ -20,7 +20,7 @@ Try calculating the largest prime number with it. https://en.wikipedia.org/wiki/
 
 
 License: GPL v2
-(C) Nuno Ferreira 2022
+(C)2022 Nuno Ferreira 
 
 Based on Nuklear GUI 
 https://github.com/Immediate-Mode-UI/Nuklear
