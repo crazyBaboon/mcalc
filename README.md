@@ -8,8 +8,10 @@ It is a basic UI of a multi-precision calculator:
 If the result has got more than 32 digits long, it will be displayed in the terminal.
 
 
+
 Compile and run:
 clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU && ./mcalc
+
 
 
 ATM it only does integer calculations. And with very basic parsing for now (no support for brackets).
