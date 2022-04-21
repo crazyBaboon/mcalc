@@ -1,10 +1,13 @@
 # mcalc
 Front-end to GMP
 
-It is a basic UI of a multi-precision calculator.
+It is a basic UI of a multi-precision calculator:
+![mcalc2](https://user-images.githubusercontent.com/19549703/164500449-fa1116d9-94dc-4f5d-8424-75e04a7ae93d.png)
+
+If the result has got more than 32 digits long, it will be displayed in the terminal.
 
 
-Compile and run from the terminal using:
+Compile and run:
 clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU && ./mcalc
 
 
@@ -17,3 +20,6 @@ Try calculating the largest prime number with it. https://en.wikipedia.org/wiki/
 
 License: GPL v2
 (C) Nuno Ferreira 2022
+
+Based on Nuklear GUI 
+https://github.com/Immediate-Mode-UI/Nuklear
