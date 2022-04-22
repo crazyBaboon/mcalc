@@ -5,7 +5,7 @@ It is a basic UI of a multi-precision calculator:
 
 ![mcalc2](https://user-images.githubusercontent.com/19549703/164544763-2203bf6c-93d6-46bc-b4b7-7faf4f208e4d.png)
 
-If the result has got more than 32 digits long, it will be displayed in the terminal.
+If the result is longer than 32 digits, it will be displayed in the terminal.
 
 
 
