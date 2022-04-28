@@ -7,7 +7,7 @@
  * the terms of the GNU General Public License version 2.
  * 
  * Compile & run on Unix-like systems:
- * clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU && ./mcalc 
+ * clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc 
  */
 
 #include <stdio.h>
