@@ -7,7 +7,7 @@
  * the terms of the GNU General Public License version 2.
  * 
  * Compile & run on Unix-like systems:
- * clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc 
+ * clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU && ./mcalc 
  */
 
 #include <stdio.h>
@@ -32,7 +32,7 @@
 #define WINDOW_WIDTH 240
 #define WINDOW_HEIGHT 250
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL};
+enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME};
 
 void check_if_calculation_is_new(nk_bool*    start_new_calc_flag, 
                                  char*       text_to_display_on_screen,
@@ -76,13 +76,14 @@ int main(void)
     /* Calculator variables */
     nk_bool start_new_calc_flag = nk_true;
     nk_bool is_dividing_by_zero = nk_false;
+    int is_number_prime = 0;
     mpz_t operand_1m, operand_2m, result_m;
     static size_t number_of_digits_to_display = 0;
     static char text_to_display_on_screen[128] = "";
     char* text;
     char* result_str;
     static char* box_buffer;
-    text = malloc(3212);
+    text       = malloc(3212);
     box_buffer = malloc(3212);
     result_str = malloc(3212);
 
@@ -198,7 +199,7 @@ int main(void)
                 Operation = FACTORIAL;
             }                
            
-            nk_layout_row_static(ctx, 30, 40, 4);
+            nk_layout_row_static(ctx, 30, 40, 5);
             if (nk_button_label(ctx, "0"))
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "0");
             if (nk_button_label(ctx, ""))
@@ -238,6 +239,8 @@ int main(void)
                     mpz_add(result_m, operand_1m, operand_2m);
                 else if (Operation == FACTORIAL)
                     mpz_fac_ui(result_m, mpz_get_ui(operand_1m));
+                else if (Operation == IS_N_PRIME)
+                    is_number_prime = mpz_probab_prime_p(operand_1m, 20);                    
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
                 text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
@@ -264,7 +267,29 @@ int main(void)
                     printf("%lu + %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
                 else if (Operation == FACTORIAL)
                     printf("%lu! =\n", mpz_get_ui(operand_1m));
-
+					 else if (Operation == IS_N_PRIME)
+					 {
+					     if (is_number_prime == 0)
+					     {
+					         printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
+					         strcpy(text_to_display_on_screen, "definately NOT prime");
+					         strcpy(box_buffer, "");
+					     }
+					     else if (is_number_prime == 1)
+					     {
+					         printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
+					         strcpy(text_to_display_on_screen, "probably prime.");
+					         strcpy(box_buffer, "");
+					     }					 
+					     else if (is_number_prime == 2)
+					     {
+					     	 printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
+					         strcpy(text_to_display_on_screen, "definately prime.");
+					         strcpy(box_buffer, "");
+					     }
+					 }
+                   
+                    
                 mpz_out_str(stdout,10,result_m); 
                 printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
 
@@ -281,7 +306,16 @@ int main(void)
                 strcpy(text, "");
                 strcat(text_to_display_on_screen, " / ");
                 Operation = DIVIDE;
-            }               
+            }  
+            if (nk_button_label(ctx, "p?"))
+            {
+                mpz_init_set_str (operand_1m, text, 10);
+                strcpy(text, "");
+                strcat(text_to_display_on_screen, " prime? ");
+                Operation = IS_N_PRIME;
+            }                     
+            
+            
         }
         nk_end(ctx);
 
@@ -297,4 +331,3 @@ int main(void)
     glfwTerminate();
     return 0;
 }
-
