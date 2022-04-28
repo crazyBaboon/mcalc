@@ -214,33 +214,80 @@ int main(void)
                 strcpy(text, "");
                 strcat(text_to_display_on_screen, " = ");
 
-                if (Operation == MULTIPLY)
-                    mpz_mul(result_m, operand_1m, operand_2m);
-                else if (Operation == DIVIDE)
+                switch (Operation)
+                {
+                    case MULTIPLY:
+                    {
+                        mpz_mul(result_m, operand_1m, operand_2m);                    
+                        printf("%lu x %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
+                        break;
+                    }
+                    case DIVIDE:
                     {
                         if (mpz_cmp_ui(operand_2m, 0) == 0) /* don't divide by 0 */
-                            {
-                                is_dividing_by_zero = nk_true;
-                                strcpy(text_to_display_on_screen, "");
-                                strcat(text_to_display_on_screen, "You are dividing by 0! Noooooo");
-                                printf("You are dividing by 0! Don't do it.\n");
-                            }
+                        {
+                            is_dividing_by_zero = nk_true;
+                            strcpy(text_to_display_on_screen, "");
+                            strcat(text_to_display_on_screen, "You are dividing by 0! Noooooo");
+                            printf("You are dividing by 0! Don't do it.\n");
+                        }
                         else
-                            {
-                                mpz_div(result_m, operand_1m, operand_2m);
-                                is_dividing_by_zero = nk_false;
-                            }
+                        {
+                            mpz_div(result_m, operand_1m, operand_2m);
+                            printf("%lu / %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
+                            is_dividing_by_zero = nk_false;
+                        }
+                        break;
                     }
-                else if (Operation == SUBTRACT)
-                    mpz_sub(result_m, operand_1m, operand_2m);
-                else if (Operation == POW)
-                    mpz_pow_ui(result_m, operand_1m, mpz_get_ui(operand_2m));    
-                else if (Operation == SUM)
-                    mpz_add(result_m, operand_1m, operand_2m);
-                else if (Operation == FACTORIAL)
-                    mpz_fac_ui(result_m, mpz_get_ui(operand_1m));
-                else if (Operation == IS_N_PRIME)
-                    is_number_prime = mpz_probab_prime_p(operand_1m, 20);                    
+                    case SUBTRACT:
+                    {
+                        mpz_sub(result_m, operand_1m, operand_2m);
+                        printf("%lu - %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
+                        break;
+                    }                
+                    case POW:
+                    {
+                        mpz_pow_ui(result_m, operand_1m, mpz_get_ui(operand_2m));   
+                        printf("%lu ^ %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m)); 
+                        break;
+                    }                
+                    case SUM:
+                    {
+                        mpz_add(result_m, operand_1m, operand_2m);
+                        printf("%lu + %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
+                        break;
+                    }
+                    case FACTORIAL:
+                    {                
+                        printf("%lu! =\n", mpz_get_ui(operand_1m));
+                        mpz_fac_ui(result_m, mpz_get_ui(operand_1m));
+                        break;
+                    }                
+                    case IS_N_PRIME:
+                    {                
+                        is_number_prime = mpz_probab_prime_p(operand_1m, 20);
+
+				        if (is_number_prime == 0)
+				        {
+				            printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
+				            strcpy(text_to_display_on_screen, "definately NOT prime");
+				            strcpy(box_buffer, "");
+				        }
+				        else if (is_number_prime == 1)
+				        {
+				            printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
+				            strcpy(text_to_display_on_screen, "probably prime.");
+				            strcpy(box_buffer, "");
+				        }					 
+				        else if (is_number_prime == 2)
+				        {
+				            printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
+				            strcpy(text_to_display_on_screen, "definately prime.");
+				            strcpy(box_buffer, "");
+				        } 
+                        break;                   
+                    }
+                }
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
                 text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
@@ -252,44 +299,6 @@ int main(void)
 
                 puts("----------");
 
-                if (Operation == MULTIPLY)
-                    printf("%lu x %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                else if (Operation == DIVIDE)
-                {
-                    if (is_dividing_by_zero == nk_false)
-                        printf("%lu / %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                }                
-                else if (Operation == SUBTRACT)
-                    printf("%lu - %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                else if (Operation == POW)
-                    printf("%lu ^ %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));    
-                else if (Operation == SUM)
-                    printf("%lu + %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                else if (Operation == FACTORIAL)
-                    printf("%lu! =\n", mpz_get_ui(operand_1m));
-					 else if (Operation == IS_N_PRIME)
-					 {
-					     if (is_number_prime == 0)
-					     {
-					         printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
-					         strcpy(text_to_display_on_screen, "definately NOT prime");
-					         strcpy(box_buffer, "");
-					     }
-					     else if (is_number_prime == 1)
-					     {
-					         printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
-					         strcpy(text_to_display_on_screen, "probably prime.");
-					         strcpy(box_buffer, "");
-					     }					 
-					     else if (is_number_prime == 2)
-					     {
-					     	 printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
-					         strcpy(text_to_display_on_screen, "definately prime.");
-					         strcpy(box_buffer, "");
-					     }
-					 }
-                   
-                    
                 mpz_out_str(stdout,10,result_m); 
                 printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
 
