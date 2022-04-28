@@ -267,24 +267,24 @@ int main(void)
                     {                
                         is_number_prime = mpz_probab_prime_p(operand_1m, 20);
 
-				        if (is_number_prime == 0)
-				        {
-				            printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
-				            strcpy(text_to_display_on_screen, "definately NOT prime");
-				            strcpy(box_buffer, "");
-				        }
-				        else if (is_number_prime == 1)
-				        {
-				            printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
-				            strcpy(text_to_display_on_screen, "probably prime.");
-				            strcpy(box_buffer, "");
-				        }					 
-				        else if (is_number_prime == 2)
-				        {
-				            printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
-				            strcpy(text_to_display_on_screen, "definately prime.");
-				            strcpy(box_buffer, "");
-				        } 
+			if (is_number_prime == 0)
+			{
+			    printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
+			    strcpy(text_to_display_on_screen, "definately NOT prime");
+			    strcpy(box_buffer, "");
+			}
+			else if (is_number_prime == 1)
+			{
+			    printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
+			    strcpy(text_to_display_on_screen, "probably prime.");
+			    strcpy(box_buffer, "");
+			}					 
+			else if (is_number_prime == 2)
+			{
+			    printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
+			    strcpy(text_to_display_on_screen, "definately prime.");
+			    strcpy(box_buffer, "");
+			} 
                         break;                   
                     }
                 }
