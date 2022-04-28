@@ -14,7 +14,8 @@ clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -l
 
 
 
-ATM it only does integer calculations. And with very basic parsing for now (no support for brackets).
+At the moment it only does integer calculations. And with very basic parsing for now (no support for brackets).
+Also it runs only on Unix-like systems.
 
 Try calculating the largest prime number with it. https://en.wikipedia.org/wiki/Largest_known_prime_number
 
