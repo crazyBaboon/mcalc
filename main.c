@@ -75,7 +75,6 @@ int main(void)
 
     /* Calculator variables */
     nk_bool start_new_calc_flag = nk_true;
-    nk_bool is_dividing_by_zero = nk_false;
     int is_number_prime = 0;
     mpz_t operand_1m, operand_2m, result_m;
     static size_t number_of_digits_to_display = 0;
@@ -237,9 +236,9 @@ int main(void)
             } 
             if (nk_button_label(ctx, "!"))
             {
-		mpz_init_set_str (operand_1m, text, 10);
-		strcpy(text, "");
-		strcat(text_to_display_on_screen, "! ");
+                mpz_init_set_str (operand_1m, text, 10);
+                strcpy(text, "");
+                strcat(text_to_display_on_screen, "! ");
                 Operation = FACTORIAL;
             }                
            
@@ -270,7 +269,6 @@ int main(void)
                     {
                         if (mpz_cmp_ui(operand_2m, 0) == 0) /* don't divide by 0 */
                         {
-                            is_dividing_by_zero = nk_true;
                             strcpy(text_to_display_on_screen, "");
                             strcat(text_to_display_on_screen, "You are dividing by 0! Noooooo");
                             printf("You are dividing by 0! Don't do it.\n");
@@ -279,7 +277,6 @@ int main(void)
                         {
                             mpz_div(result_m, operand_1m, operand_2m);
                             printf("%lu / %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                            is_dividing_by_zero = nk_false;
                         }
                         break;
                     }
