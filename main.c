@@ -237,9 +237,9 @@ int main(void)
             } 
             if (nk_button_label(ctx, "!"))
             {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, "! ");
+		mpz_init_set_str (operand_1m, text, 10);
+		strcpy(text, "");
+		strcat(text_to_display_on_screen, "! ");
                 Operation = FACTORIAL;
             }                
            
