@@ -141,9 +141,20 @@ int main(void)
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "9");
             if (nk_button_label(ctx, "x"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " x ");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans x ");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " x ");
+                }
                 Operation = MULTIPLY;
             }   
             if (nk_button_label(ctx, "C"))
@@ -163,16 +174,38 @@ int main(void)
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "6");
             if (nk_button_label(ctx, "-"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " - ");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans - ");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " - ");
+                }
                 Operation = SUBTRACT;
             }
             if (nk_button_label(ctx, "^"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " ^ ");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans ^ ");
+                }
+                else
+                {                    
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " ^ ");
+                }
                 Operation = POW;
             }       
                            
@@ -186,16 +219,27 @@ int main(void)
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "3");
             if (nk_button_label(ctx, "+"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " + ");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans + ");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " + ");
+                }
                 Operation = SUM;
             } 
             if (nk_button_label(ctx, "!"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, "! ");
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, "! ");
                 Operation = FACTORIAL;
             }                
            
@@ -311,16 +355,38 @@ int main(void)
             }
             if (nk_button_label(ctx, "/"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " / ");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans / ");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " / ");
+                }
                 Operation = DIVIDE;
             }  
             if (nk_button_label(ctx, "p?"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " prime? ");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans prime? ");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " prime? ");
+                }
                 Operation = IS_N_PRIME;
             }                     
             
