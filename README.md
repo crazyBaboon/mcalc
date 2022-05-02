@@ -9,8 +9,8 @@ If the result is longer than 32 digits, it will be displayed in the terminal.
 
 
 
-Compile and run:
-clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU && ./mcalc
+## Compile and run:
+clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
 
 
