@@ -75,7 +75,6 @@ int main(void)
 
     /* Calculator variables */
     nk_bool start_new_calc_flag = nk_true;
-    int is_number_prime = 0;
     mpz_t operand_1m, operand_2m, result_m;
     static size_t number_of_digits_to_display = 0;
     static char text_to_display_on_screen[128] = "";
@@ -306,26 +305,30 @@ int main(void)
                     }                
                     case IS_N_PRIME:
                     {                
-                        is_number_prime = mpz_probab_prime_p(operand_1m, 20);
-
-			if (is_number_prime == 0)
-			{
-			    printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
-			    strcpy(text_to_display_on_screen, "definately NOT prime");
-			    strcpy(box_buffer, "");
-			}
-			else if (is_number_prime == 1)
-			{
-			    printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
-			    strcpy(text_to_display_on_screen, "probably prime.");
-			    strcpy(box_buffer, "");
-			}					 
-			else if (is_number_prime == 2)
-			{
-			    printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
-			    strcpy(text_to_display_on_screen, "definately prime.");
-			    strcpy(box_buffer, "");
-			} 
+                        switch (mpz_probab_prime_p(operand_1m, 20))
+                        {
+                            case 0:
+                            {
+                                printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
+                                strcpy(text_to_display_on_screen, "definately NOT prime");
+                                strcpy(box_buffer, "");
+                                break;
+                            }
+                            case 1:
+                            {
+                                printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
+                                strcpy(text_to_display_on_screen, "probably prime.");
+                                strcpy(box_buffer, "");
+                                break;
+                            }					 
+                            case 2:
+                            {
+                                printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
+                                strcpy(text_to_display_on_screen, "definately prime.");
+                                strcpy(box_buffer, "");
+                                break;
+                            }
+                        } 
                         break;                   
                     }
                 }
