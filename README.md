@@ -1,6 +1,6 @@
 # mcalc
 
-*mcalc* is a graphical **m**ulti-precision **calc**ulator. Sort of a front-end to GMP
+*mcalc* is a graphical **m**ulti-precision **calc**ulator. Sort of a front-end to [**GMP**](https://gmplib.org/).
 
 ![mcalc2](https://user-images.githubusercontent.com/19549703/164544763-2203bf6c-93d6-46bc-b4b7-7faf4f208e4d.png)
 
