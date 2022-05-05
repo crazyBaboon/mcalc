@@ -13,11 +13,10 @@ If the result is longer than 32 digits, it will be displayed in the terminal.
 
 
 ## Compile and run:
-clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
+    clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
-
-At the moment it only does integer calculations. And with very basic parsing for now (no support for brackets). It runs only on **Unix-like** systems, but if there are requests for it, I could release a version for **MS Windows**.
+It runs only on **Unix-like** systems, but if there are requests for it, I could release a version for **MS Windows**.
 
 ## Try calculating the largest prime number known:
 
