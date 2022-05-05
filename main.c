@@ -29,7 +29,7 @@
 #include "nuklear.h"
 #include "nuklear_glfw_gl2.h"
 
-#define WINDOW_WIDTH 240
+#define WINDOW_WIDTH 270
 #define WINDOW_HEIGHT 250
 
 enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME};
@@ -71,6 +71,7 @@ int main(void)
     /* Platform */
     static GLFWwindow *win;
     struct nk_context *ctx;
+    int width = 0, height = 0;
 
     /* Calculator variables */
     nk_bool start_new_calc_flag = nk_true;
