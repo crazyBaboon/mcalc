@@ -70,7 +70,6 @@ int main(void)
 {
     /* Platform */
     static GLFWwindow *win;
-    int width = 0, height = 0;
     struct nk_context *ctx;
 
     /* Calculator variables */
@@ -112,7 +111,7 @@ int main(void)
         nk_glfw3_new_frame();
 
         /* GUI */
-        if (nk_begin(ctx, "mcalc", nk_rect(0, -20, 240, 290),
+        if (nk_begin(ctx, "mcalc", nk_rect(0, -20, WINDOW_WIDTH, WINDOW_HEIGHT + 30),
             NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
             NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
         {
@@ -130,7 +129,7 @@ int main(void)
             else
                 nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, box_buffer, number_of_digits_to_display + 2, nk_filter_default);
 
-            nk_layout_row_static(ctx, 30, 40, 5);
+            nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "7"))
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "7");
             if (nk_button_label(ctx, "8"))
