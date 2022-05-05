@@ -2,7 +2,7 @@
 
 ***mcalc*** is a graphical **m**ulti-precision **calc**ulator. 
 
-Sort of a front-end to [**GMP**](https://gmplib.org/).
+Sort of a graphical front-end to [**GMP**](https://gmplib.org/).
 
 Screenshot:
 
@@ -28,7 +28,10 @@ Try calculating the largest prime number with it. https://en.wikipedia.org/wiki/
 
 Advantages of using mcalc are the speed and ease of use (when compared to programming tools like python or bc).
 
-License: GPL v2
+## License ##
+
+**GPL v2**
+
 (C)2022 Nuno Ferreira 
 
 Based on Nuklear GUI 
