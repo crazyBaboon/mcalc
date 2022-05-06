@@ -29,10 +29,10 @@
 #include "nuklear.h"
 #include "nuklear_glfw_gl2.h"
 
-#define WINDOW_WIDTH 270
+#define WINDOW_WIDTH 290
 #define WINDOW_HEIGHT 250
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME};
+enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME, NEXT_PRIME};
 
 void check_if_calculation_is_new(nk_bool*    start_new_calc_flag, 
                                  char*       text_to_display_on_screen,
@@ -122,7 +122,7 @@ int main(void)
             nk_label(ctx, text_to_display_on_screen, NK_TEXT_LEFT);
 
 
-            nk_layout_row_static(ctx, 30, 215, 1);
+            nk_layout_row_static(ctx, 30, 260, 1);
             if (number_of_digits_to_display > 36)
             {
                 nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, text_to_display_on_screen, 128, nk_filter_default);
@@ -161,7 +161,13 @@ int main(void)
                 strcpy(text_to_display_on_screen, "");
                 strcpy(box_buffer, "");
             }   
-  
+            if (nk_button_label(ctx, "np"))
+            {
+                mpz_init_set_str (operand_1m, text, 10);
+                strcpy(text, "");
+                strcat(text_to_display_on_screen, " next prime is...");
+                Operation = NEXT_PRIME;
+            }   
                
             nk_layout_row_static(ctx, 30, 40, 5);
             if (nk_button_label(ctx, "4"))
@@ -330,6 +336,12 @@ int main(void)
                             }
                         } 
                         break;                   
+                    }
+                    case NEXT_PRIME:
+                    {
+                        printf("Next prime greater than %lu is\n", mpz_get_ui(operand_1m));
+                        mpz_nextprime(result_m, operand_1m);
+                        break;
                     }
                 }
 
