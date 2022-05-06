@@ -163,9 +163,20 @@ int main(void)
             }   
             if (nk_button_label(ctx, "np"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " next prime is...");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans next prime?");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " next prime? ");
+                }
                 Operation = NEXT_PRIME;
             }   
                
@@ -339,7 +350,9 @@ int main(void)
                     }
                     case NEXT_PRIME:
                     {
-                        printf("Next prime greater than %lu is\n", mpz_get_ui(operand_1m));
+                        printf("Next prime greater than\n");
+                        mpz_out_str(stdout,10,operand_1m); 
+                        printf("\nis:\n");
                         mpz_nextprime(result_m, operand_1m);
                         break;
                     }
