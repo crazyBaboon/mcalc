@@ -142,7 +142,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "ans x ");
@@ -166,7 +165,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "ans next prime?");
@@ -192,7 +190,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "ans - ");
@@ -210,7 +207,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "ans ^ ");
@@ -228,7 +224,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "ans prime? ");
@@ -254,7 +249,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "ans + ");
@@ -400,7 +394,7 @@ int main(void)
                 {
                     sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
                 }
-
+                mpz_set(operand_1m, result_m);
                 start_new_calc_flag = nk_true;
             }
             if (nk_button_label(ctx, "/"))
@@ -408,7 +402,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "ans / ");
@@ -426,7 +419,6 @@ int main(void)
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
-                    mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
                     strcat(text_to_display_on_screen, "sqrt(ans)");
