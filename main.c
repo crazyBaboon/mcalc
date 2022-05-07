@@ -10,6 +10,7 @@
  * clang main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc 
  */
 
+#include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -33,6 +34,13 @@
 #define WINDOW_HEIGHT 250
 
 enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME, NEXT_PRIME, SQRT};
+
+void mem_realloc(char* text, char* box_buffer, char* result_str, size_t length)
+{
+    text       = realloc(text, length + 2); /* +2 for eventual negative sign and null terminator */
+    box_buffer = realloc(box_buffer, length + 2);
+    result_str = realloc(result_str, length + 2);
+}
 
 void check_if_calculation_is_new(nk_bool*    start_new_calc_flag, 
                                  char*       text_to_display_on_screen,
@@ -378,9 +386,7 @@ int main(void)
                 }
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
-                text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
-                box_buffer = realloc(box_buffer, number_of_digits_to_display + 2);
-                result_str = realloc(result_str, number_of_digits_to_display + 2);
+                mem_realloc(text, box_buffer, result_str, number_of_digits_to_display);
 
                 gmp_sprintf(result_str, "%Zd", result_m);
                 strcpy(box_buffer, result_str);
