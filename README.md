@@ -48,7 +48,7 @@ Feel free to place requests for more function in the "issues" section :P
 
 **GPL v2**
 
-(C)2022 Nuno Ferreira 
+(C)2022 Nuno Ferreira (crazyBaboon) 
 
-Based on Nuklear GUI 
+Uses the Nuklear GUI toolkit 
 https://github.com/Immediate-Mode-UI/Nuklear
