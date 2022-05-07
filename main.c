@@ -223,7 +223,7 @@ int main(void)
                 }
                 Operation = POW;
             }
-            if (nk_button_label(ctx, "sq()"))
+            if (nk_button_label(ctx, "p?"))
             {
                 if (start_new_calc_flag == nk_true)
                 {
@@ -231,17 +231,16 @@ int main(void)
                     mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "sqrt(ans)");
+                    strcat(text_to_display_on_screen, "ans prime? ");
                 }
                 else
                 {
                     mpz_init_set_str (operand_1m, text, 10);
                     strcpy(text, "");
-                    strcat(text_to_display_on_screen, " sqrt ? ");
+                    strcat(text_to_display_on_screen, " prime? ");
                 }
-                Operation = SQRT;
-            }          
-                           
+                Operation = IS_N_PRIME;
+            } 
 
             nk_layout_row_static(ctx, 30, 40, 5);
             if (nk_button_label(ctx, "1"))
@@ -422,7 +421,7 @@ int main(void)
                 }
                 Operation = DIVIDE;
             }  
-            if (nk_button_label(ctx, "p?"))
+            if (nk_button_label(ctx, "sq()"))
             {
                 if (start_new_calc_flag == nk_true)
                 {
@@ -430,17 +429,16 @@ int main(void)
                     mpz_set(operand_1m, result_m);
 
                     strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans prime? ");
+                    strcat(text_to_display_on_screen, "sqrt(ans)");
                 }
                 else
                 {
                     mpz_init_set_str (operand_1m, text, 10);
                     strcpy(text, "");
-                    strcat(text_to_display_on_screen, " prime? ");
+                    strcat(text_to_display_on_screen, " sqrt ? ");
                 }
-                Operation = IS_N_PRIME;
-            }                     
-            
+                Operation = SQRT;
+            }                    
             
         }
         nk_end(ctx);
