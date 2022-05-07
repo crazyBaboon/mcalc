@@ -7,7 +7,7 @@
  * the terms of the GNU General Public License version 2.
  * 
  * Compile & run on Unix-like systems:
- * clang main.c -std=c89 -Wall -Wextra -pedantic -g -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc 
+ * clang main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc 
  */
 
 #include <stdio.h>
@@ -75,7 +75,7 @@ int main(void)
 
     /* Calculator variables */
     nk_bool start_new_calc_flag = nk_true;
-    mpz_t operand_1m, operand_2m, result_m;
+    mpz_t operand_1m, operand_2m;
     static size_t number_of_digits_to_display = 0;
     static char text_to_display_on_screen[128] = "";
     char* text;
@@ -280,6 +280,7 @@ int main(void)
             {
                 mpz_init_set_str (operand_2m, text, 10);
 
+                mpz_t result_m;
                 mpz_init(result_m); /* initialize result_m */
                 strcpy(text, "");
                 strcat(text_to_display_on_screen, " = ");
@@ -395,6 +396,7 @@ int main(void)
                     sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
                 }
                 mpz_set(operand_1m, result_m);
+                mpz_clear(result_m); /* we don't need 'result_m' anymore */
                 start_new_calc_flag = nk_true;
             }
             if (nk_button_label(ctx, "/"))
