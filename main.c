@@ -79,6 +79,7 @@ int main(void)
     static size_t number_of_digits_to_display = 0;
     static char text_to_display_on_screen[128] = "";
     char* text;
+    int Operation = SUM;
     char* result_str;
     static char* box_buffer;
     text       = malloc(3212);
@@ -116,8 +117,6 @@ int main(void)
             NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
             NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
         {
-            int Operation;
-
             nk_layout_row_static(ctx, 30, 173, 1);
             nk_label(ctx, text_to_display_on_screen, NK_TEXT_LEFT);
 
