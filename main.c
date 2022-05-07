@@ -32,7 +32,7 @@
 #define WINDOW_WIDTH 290
 #define WINDOW_HEIGHT 250
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME, NEXT_PRIME};
+enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME, NEXT_PRIME, SQRT};
 
 void check_if_calculation_is_new(nk_bool*    start_new_calc_flag, 
                                  char*       text_to_display_on_screen,
@@ -180,7 +180,7 @@ int main(void)
                 Operation = NEXT_PRIME;
             }   
                
-            nk_layout_row_static(ctx, 30, 40, 5);
+            nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "4"))
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "4");
             if (nk_button_label(ctx, "5"))
@@ -222,7 +222,25 @@ int main(void)
                     strcat(text_to_display_on_screen, " ^ ");
                 }
                 Operation = POW;
-            }       
+            }
+            if (nk_button_label(ctx, "sq()"))
+            {
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+                    mpz_set(operand_1m, result_m);
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "sqrt(ans)");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " sqrt ? ");
+                }
+                Operation = SQRT;
+            }          
                            
 
             nk_layout_row_static(ctx, 30, 40, 5);
@@ -356,6 +374,14 @@ int main(void)
                         mpz_nextprime(result_m, operand_1m);
                         break;
                     }
+                    case SQRT:
+                    {
+                        printf("sqrt() of \n");
+                        mpz_out_str(stdout,10,operand_1m); 
+                        printf("\nis:\n");
+                        mpz_sqrt(result_m, operand_1m);
+                        break;
+                    }
                 }
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
@@ -427,6 +453,7 @@ int main(void)
         nk_glfw3_render(NK_ANTI_ALIASING_ON);
         glfwSwapBuffers(win);
     }
+
     nk_glfw3_shutdown();
     glfwTerminate();
     return 0;
