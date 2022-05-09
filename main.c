@@ -32,6 +32,7 @@
 
 #define WINDOW_WIDTH 290
 #define WINDOW_HEIGHT 250
+#define MAX_DIGITS_DISPLAY 34
 
 enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME};
 
@@ -200,7 +201,7 @@ int main(void)
                 mpz_out_str(stdout,10,result_m); 
                 printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
 
-                if (number_of_digits_to_display > 36)
+                if (number_of_digits_to_display > MAX_DIGITS_DISPLAY)
                 {
                     sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
                 }
