@@ -33,7 +33,7 @@
 #define WINDOW_WIDTH 290
 #define WINDOW_HEIGHT 250
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME, NEXT_PRIME, SQRT};
+enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME, SQRT};
 
 void mem_realloc(char* text, char* box_buffer, char* result_str, size_t length)
 {
@@ -169,20 +169,44 @@ int main(void)
             }   
             if (nk_button_label(ctx, "np"))
             {
+                mpz_t result_m;
+                mpz_init(result_m); /* initialize result_m */
+
                 if (start_new_calc_flag == nk_true)
                 {
                     start_new_calc_flag = nk_false;
 
                     strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans next prime?");
                 }
                 else
                 {
                     mpz_init_set_str (operand_1m, text, 10);
                     strcpy(text, "");
-                    strcat(text_to_display_on_screen, " next prime? ");
+                    strcpy(text_to_display_on_screen, "");
                 }
-                Operation = NEXT_PRIME;
+
+                puts("----------");
+                printf("Next prime greater than\n");
+                mpz_out_str(stdout,10,operand_1m); 
+                printf("\nis:\n");
+                mpz_nextprime(result_m, operand_1m);
+
+                number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
+                mem_realloc(text, box_buffer, result_str, number_of_digits_to_display);
+
+                gmp_sprintf(result_str, "%Zd", result_m);
+                strcpy(box_buffer, result_str);
+
+                mpz_out_str(stdout,10,result_m); 
+                printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
+
+                if (number_of_digits_to_display > 36)
+                {
+                    sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
+                }
+                start_new_calc_flag = nk_true;
+                mpz_set(operand_1m, result_m);
+                mpz_clear(result_m); /* we don't need 'result_m' anymore */
             }   
                
             nk_layout_row_static(ctx, 30, 40, 6);
@@ -366,14 +390,6 @@ int main(void)
                             }
                         } 
                         break;                   
-                    }
-                    case NEXT_PRIME:
-                    {
-                        printf("Next prime greater than\n");
-                        mpz_out_str(stdout,10,operand_1m); 
-                        printf("\nis:\n");
-                        mpz_nextprime(result_m, operand_1m);
-                        break;
                     }
                     case SQRT:
                     {
