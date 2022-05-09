@@ -8,7 +8,7 @@ Screenshot:
 
 ![Screenshot_2022-05-07_01-41-18](https://user-images.githubusercontent.com/19549703/167231073-fd52e85b-67d5-4d44-9bda-2f8feeb7453e.png)
 
-If the result is longer than 32 digits, it will be displayed in the terminal.
+If the result is longer than 34 digits, it will be displayed in the terminal.
 
 
 
