@@ -34,7 +34,7 @@
 #define WINDOW_HEIGHT 250
 #define MAX_DIGITS_DISPLAY 34
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, IS_N_PRIME};
+enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL};
 
 void mem_realloc(char* text, char* box_buffer, char* result_str, size_t length)
 {
@@ -253,21 +253,42 @@ int main(void)
             }
             if (nk_button_label(ctx, "p?"))
             {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans prime? ");
-                }
-                else
+                if (start_new_calc_flag == nk_false)
                 {
                     mpz_init_set_str (operand_1m, text, 10);
                     strcpy(text, "");
-                    strcat(text_to_display_on_screen, " prime? ");
+                    strcpy(text_to_display_on_screen, "");
                 }
-                Operation = IS_N_PRIME;
-            } 
+
+                puts("----------");
+                mpz_out_str(stdout,10,operand_1m); 
+                printf("\nis:\n");
+                switch (mpz_probab_prime_p(operand_1m, 20))
+                {
+                    case 0:
+                    {
+                        printf("definately not prime.\n");
+                        strcpy(text_to_display_on_screen, "definately NOT prime");
+                        strcpy(box_buffer, "");
+                        break;
+                    }
+                    case 1:
+                    {
+                        printf("is probably a prime.\n");
+                        strcpy(text_to_display_on_screen, "probably prime.");
+                        strcpy(box_buffer, "");
+                        break;
+                    }					 
+                    case 2:
+                    {
+                        printf("is definately prime.\n");
+                        strcpy(text_to_display_on_screen, "definately prime.");
+                        strcpy(box_buffer, "");
+                        break;
+                    }
+                }
+                start_new_calc_flag = nk_true; 
+            }   
 
             nk_layout_row_static(ctx, 30, 40, 5);
             if (nk_button_label(ctx, "1"))
@@ -364,34 +385,6 @@ int main(void)
                         mpz_fac_ui(result_m, mpz_get_ui(operand_1m));
                         break;
                     }                
-                    case IS_N_PRIME:
-                    {                
-                        switch (mpz_probab_prime_p(operand_1m, 20))
-                        {
-                            case 0:
-                            {
-                                printf("%lu is definately not prime.\n", mpz_get_ui(operand_1m));
-                                strcpy(text_to_display_on_screen, "definately NOT prime");
-                                strcpy(box_buffer, "");
-                                break;
-                            }
-                            case 1:
-                            {
-                                printf("%lu is probably a prime.\n", mpz_get_ui(operand_1m));
-                                strcpy(text_to_display_on_screen, "probably prime.");
-                                strcpy(box_buffer, "");
-                                break;
-                            }					 
-                            case 2:
-                            {
-                                printf("%lu is definately prime.\n", mpz_get_ui(operand_1m));
-                                strcpy(text_to_display_on_screen, "definately prime.");
-                                strcpy(box_buffer, "");
-                                break;
-                            }
-                        } 
-                        break;                   
-                    }
                 }
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
