@@ -331,12 +331,19 @@ int main(void)
 
             if (nk_button_label(ctx, "="))
             {
-                mpz_init_set_str (operand_2m, text, 10);
-
                 mpz_t result_m;
                 mpz_init(result_m); /* initialize result_m */
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, " = ");
+
+                if (start_new_calc_flag == nk_false)
+                {
+                    mpz_init_set_str (operand_2m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " = ");
+                }
+                else
+                {
+                    strcpy(text, "");
+                }
 
                 switch (Operation)
                 {
@@ -402,7 +409,6 @@ int main(void)
                 {
                     sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
                 }
-                mpz_set(operand_1m, result_m);
                 mpz_clear(result_m); /* we don't need 'result_m' anymore */
                 start_new_calc_flag = nk_true;
             }
