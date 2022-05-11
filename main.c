@@ -316,9 +316,19 @@ int main(void)
             } 
             if (nk_button_label(ctx, "!"))
             {
-                mpz_init_set_str (operand_1m, text, 10);
-                strcpy(text, "");
-                strcat(text_to_display_on_screen, "! ");
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans!");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, "! ");
+                }
                 Operation = FACTORIAL;
             }                
            
