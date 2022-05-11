@@ -126,7 +126,7 @@ int main(void)
             NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
             NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
         {
-            nk_layout_row_static(ctx, 30, 173, 1);
+            nk_layout_row_static(ctx, 30, 200, 1);
             nk_label(ctx, text_to_display_on_screen, NK_TEXT_LEFT);
 
 
