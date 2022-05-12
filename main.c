@@ -34,7 +34,7 @@
 #define WINDOW_HEIGHT 250
 #define MAX_DIGITS_DISPLAY 34
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL};
+enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, PRIMORIAL};
 
 void mem_realloc(char* text, char* box_buffer, char* result_str, size_t length)
 {
@@ -290,7 +290,7 @@ int main(void)
                 start_new_calc_flag = nk_true; 
             }   
 
-            nk_layout_row_static(ctx, 30, 40, 5);
+            nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "1"))
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "1");
             if (nk_button_label(ctx, "2"))
@@ -330,8 +330,24 @@ int main(void)
                     strcat(text_to_display_on_screen, "! ");
                 }
                 Operation = FACTORIAL;
-            }                
-           
+            }
+            if (nk_button_label(ctx, "#"))
+            {
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "ans#");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, "# ");
+                }
+                Operation = PRIMORIAL;
+            }              
             nk_layout_row_static(ctx, 30, 40, 5);
             if (nk_button_label(ctx, "0"))
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "0");
@@ -397,11 +413,17 @@ int main(void)
                         break;
                     }
                     case FACTORIAL:
-                    {                
+                    {
                         printf("%lu! =\n", mpz_get_ui(operand_1m));
                         mpz_fac_ui(result_m, mpz_get_ui(operand_1m));
                         break;
-                    }                
+                    }
+                    case PRIMORIAL:
+                    {
+                        printf("%lu! =\n", mpz_get_ui(operand_1m));
+                        mpz_primorial_ui(result_m, mpz_get_ui(operand_1m));
+                        break;
+                    }
                 }
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
