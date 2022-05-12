@@ -14,11 +14,11 @@ If the result is longer than 34 digits, it will be displayed in the terminal.
 
 ## Compile and run:
 
-Use the following command:
+On UNIX-like:
 
     clang main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
-It runs only on **Unix-like** systems, but if there are requests for it, I could release a version for **MS Windows**.
+If there is a request for it, I am happy to release a version for **MS Windows**.
 
 ## Try calculating the largest prime number known:
 
