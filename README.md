@@ -2,7 +2,7 @@
 
 ***mcalc*** is a graphical **m**ulti-precision **calc**ulator. 
 
-Sort of a graphical front-end to [**GMP**](https://gmplib.org/).
+It is a graphical front-end to [**GMP**](https://gmplib.org/).
 
 Screenshot:
 
