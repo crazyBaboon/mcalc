@@ -419,6 +419,7 @@ int main(void)
                 {
                     sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
                 }
+                mpz_set(operand_1m, result_m);
                 mpz_clear(result_m); /* we don't need 'result_m' anymore */
                 start_new_calc_flag = nk_true;
             }
