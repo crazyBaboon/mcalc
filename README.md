@@ -42,7 +42,7 @@ Currently, the following functions are available to use directly:
 - mpz_nextprime();
 - mpz_sqrt().
 
-Feel free to place requests for more function in the "issues" section :P
+Feel free to place requests for more functions in the "issues" section :P
 
 ## License ##
 
