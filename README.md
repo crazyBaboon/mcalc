@@ -40,7 +40,8 @@ Currently, the following functions are available to use directly:
 - mpz_fac_ui();
 - mpz_probab_prime_p();
 - mpz_nextprime();
-- mpz_sqrt().
+- mpz_sqrt();
+- mpz_primorial_ui().
 
 Feel free to place requests for more functions in the "issues" section :P
 
