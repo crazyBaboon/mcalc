@@ -6,7 +6,7 @@ It is a graphical front-end to [**GMP**](https://gmplib.org/).
 
 Screenshot:
 
-![Screenshot_2022-05-07_01-41-18](https://user-images.githubusercontent.com/19549703/167231073-fd52e85b-67d5-4d44-9bda-2f8feeb7453e.png)
+![Screenshot at 2022-05-13 21-21-33](https://user-images.githubusercontent.com/19549703/168386805-2a4f0a29-a979-481b-b53a-c1922bdf195b.png)
 
 If the result is longer than 34 digits, it will be displayed in the terminal.
 
@@ -16,7 +16,7 @@ If the result is longer than 34 digits, it will be displayed in the terminal.
 
 On UNIX-like:
 
-    clang main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
+    gcc main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
 If there is a request for it, I am happy to release a version for **MS Windows**.
 
@@ -46,6 +46,7 @@ Currently, the following functions are available to use directly:
 - mpz_nextprime();
 - mpz_sqrt();
 - mpz_primorial_ui().
+- mpz_fib_ui();
 
 Feel free to place requests for more functions in the "issues" section :P
 
