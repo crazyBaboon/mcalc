@@ -420,7 +420,7 @@ int main(void)
                     }
                     case PRIMORIAL:
                     {
-                        printf("%lu! =\n", mpz_get_ui(operand_1m));
+                        printf("%lu# =\n", mpz_get_ui(operand_1m));
                         mpz_primorial_ui(result_m, mpz_get_ui(operand_1m));
                         break;
                     }
