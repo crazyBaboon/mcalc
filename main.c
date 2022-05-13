@@ -34,7 +34,7 @@
 #define WINDOW_HEIGHT 250
 #define MAX_DIGITS_DISPLAY 34
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, PRIMORIAL};
+enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, PRIMORIAL, FIBONACCI};
 
 void mem_realloc(char* text, char* box_buffer, char* result_str, size_t length)
 {
@@ -348,7 +348,7 @@ int main(void)
                 }
                 Operation = PRIMORIAL;
             }              
-            nk_layout_row_static(ctx, 30, 40, 5);
+            nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "0"))
                 process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "0");
             if (nk_button_label(ctx, ""))
@@ -422,6 +422,12 @@ int main(void)
                     {
                         printf("%lu# =\n", mpz_get_ui(operand_1m));
                         mpz_primorial_ui(result_m, mpz_get_ui(operand_1m));
+                        break;
+                    }
+                    case FIBONACCI:
+                    {
+                        printf("%luth Fibonacci term is:\n", mpz_get_ui(operand_1m));
+                        mpz_fib_ui(result_m, mpz_get_ui(operand_1m));
                         break;
                     }
                 }
@@ -503,7 +509,23 @@ int main(void)
                 mpz_set(operand_1m, result_m);
                 mpz_clear(result_m); /* we don't need 'result_m' anymore */
             }                
-            
+            if (nk_button_label(ctx, "Fn"))
+            {
+                if (start_new_calc_flag == nk_true)
+                {
+                    start_new_calc_flag = nk_false;
+
+                    strcpy(text_to_display_on_screen, "");
+                    strcat(text_to_display_on_screen, "Fib?");
+                }
+                else
+                {
+                    mpz_init_set_str (operand_1m, text, 10);
+                    strcpy(text, "");
+                    strcat(text_to_display_on_screen, " Fib? ");
+                }
+                Operation = FIBONACCI;
+            } 
         }
         nk_end(ctx);
 
