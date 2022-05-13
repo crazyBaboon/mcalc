@@ -14630,11 +14630,11 @@ nk_input_is_key_down(const struct nk_input *i, enum nk_keys key)
 NK_API void nk_style_default(struct nk_context *ctx){nk_style_from_table(ctx, 0);}
 #define NK_COLOR_MAP(NK_COLOR)\
     NK_COLOR(NK_COLOR_TEXT,                     220, 220, 220,255) \
-    NK_COLOR(NK_COLOR_WINDOW,                   45, 45, 45, 255) \
-    NK_COLOR(NK_COLOR_HEADER,                   40, 40, 40, 255) \
+    NK_COLOR(NK_COLOR_WINDOW,                   25, 25, 25, 255) \
+    NK_COLOR(NK_COLOR_HEADER,                   25, 25, 25, 255) \
     NK_COLOR(NK_COLOR_BORDER,                   65, 65, 65, 255) \
     NK_COLOR(NK_COLOR_BUTTON,                   50, 50, 50, 255) \
-    NK_COLOR(NK_COLOR_BUTTON_HOVER,             40, 40, 40, 255) \
+    NK_COLOR(NK_COLOR_BUTTON_HOVER,             150, 40, 40, 255) \
     NK_COLOR(NK_COLOR_BUTTON_ACTIVE,            35, 35, 35, 255) \
     NK_COLOR(NK_COLOR_TOGGLE,                   100,100,100,255) \
     NK_COLOR(NK_COLOR_TOGGLE_HOVER,             120,120,120,255) \
