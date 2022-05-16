@@ -18,7 +18,7 @@ On UNIX-like:
 
     gcc main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
-If there is a request for it, I am happy to release a version for **MS Windows**.
+If there is a request for it, I am happy to release a version for **MS Windows**. Let us know in the 'issues' section.
 
 
 
