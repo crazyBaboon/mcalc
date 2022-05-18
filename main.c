@@ -126,7 +126,7 @@ int main(void)
             nk_layout_row_static(ctx, 30, 260, 1);
             if (number_of_digits_to_display > 36)
             {
-                nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, text_to_display_on_screen, 128, nk_filter_default);
+                nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, box_buffer, 128, nk_filter_default);
             }            
             else
                 nk_edit_string_zero_terminated(ctx, NK_EDIT_BOX, box_buffer, number_of_digits_to_display + 2, nk_filter_default);
@@ -442,7 +442,7 @@ int main(void)
 
                 if (number_of_digits_to_display > 36)
                 {
-                    sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
+                    sprintf(box_buffer, "Wow %lu digits!", number_of_digits_to_display);
                 }
                 mpz_set(operand_1m, result_m);
                 mpz_clear(result_m); /* we don't need 'result_m' anymore */
