@@ -10,17 +10,26 @@ Screenshot:
 
 If the result is longer than 34 digits, it will be displayed in the terminal.
 
-
+Some of the less obvious keys:
+"Fn" calculates the nth fibonacci number
+"!" calculates the factorial
+"#" calculates the primorial
+"np" calculates the next prime number
+"p?" primality test
 
 ## Compile and run:
+
+Dependencies:
+
+    In order to compile mcalc, you will need these two libraries installed: GLFW (https://www.glfw.org/) and GMP (https://gmplib.org/).
 
 On UNIX-like:
 
     gcc main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
-If there is a request for it, I am happy to release a version for **MS Windows**. Let us know in the 'issues' section.
+Always launch it from a terminal:
 
-
+    ./mcalc
 
 ## Try calculating the largest prime number known:
 
