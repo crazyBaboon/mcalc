@@ -36,7 +36,7 @@ Always launch it from a terminal:
 
     ./mcalc
 
-## Try calculating the largest prime number known:
+## Example: calculate the largest known prime number:
 
 Try **calculating** the largest prime number with it. https://en.wikipedia.org/wiki/Largest_known_prime_number
 
