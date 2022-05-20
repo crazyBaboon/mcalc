@@ -80,12 +80,13 @@ int main(void)
     mpz_t operand_1m, operand_2m;
     static size_t number_of_digits_to_display = 0;
     static char text_to_display_on_screen[128] = "";
-    static char box_buffer[128] = "";  
-    char result_str[128];  
     char* text;
     int Operation = SUM;
+    char* result_str;
+    static char* box_buffer;
     text       = malloc(3212);
-
+    box_buffer = malloc(3212);
+    result_str = malloc(3212);
 
 
     /* GLFW */
@@ -186,6 +187,8 @@ int main(void)
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
 				text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
+				box_buffer = realloc(box_buffer, number_of_digits_to_display + 2);
+				result_str = realloc(result_str, number_of_digits_to_display + 2);
 				
                 gmp_sprintf(result_str, "%Zd", result_m);
                 strcpy(box_buffer, result_str);
@@ -426,6 +429,8 @@ int main(void)
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
                 text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
+                box_buffer = realloc(box_buffer, number_of_digits_to_display + 2);
+                result_str = realloc(result_str, number_of_digits_to_display + 2);
 
                 gmp_sprintf(result_str, "%Zd", result_m);
                 strcpy(box_buffer, result_str);
@@ -486,6 +491,8 @@ int main(void)
 
                 number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
                 text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
+                box_buffer = realloc(box_buffer, number_of_digits_to_display + 2);
+                result_str = realloc(result_str, number_of_digits_to_display + 2);
 
                 gmp_sprintf(result_str, "%Zd", result_m);
                 strcpy(box_buffer, result_str);
