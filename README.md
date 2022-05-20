@@ -24,7 +24,7 @@ Some of the less obvious keys:
 
 ## Compile and run:
 
-Dependencies:
+**Dependencies**:
 
 In order to compile **mcalc**, you will need these two libraries installed: GLFW (https://www.glfw.org/) and GMP (https://gmplib.org/).
 
