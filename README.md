@@ -12,15 +12,15 @@ If the result is longer than 34 digits, it will be displayed in the terminal.
 
 Some of the less obvious keys:
 
-"Fn" calculates the nth fibonacci number
+"**Fn**" calculates the nth fibonacci number
 
-"!" calculates the factorial
+"**!**" calculates the factorial
 
-"#" calculates the primorial
+"**#**" calculates the primorial
 
-"np" calculates the next prime number
+"**np**" calculates the next prime number
 
-"p?" primality test
+"**p?**" primality test
 
 ## Compile and run:
 
