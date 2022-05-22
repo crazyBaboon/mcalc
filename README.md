@@ -26,7 +26,11 @@ Some of the less obvious keys:
 
 **Dependencies**:
 
-In order to compile ***mcalc***, you will need these two libraries installed: GLFW (https://www.glfw.org/) and GMP (https://gmplib.org/).
+In order to compile ***mcalc***, you will need these two libraries installed: 
+
+- GLFW (https://www.glfw.org/) 
+
+- GMP (https://gmplib.org/).
 
 On UNIX-like:
 
@@ -38,7 +42,7 @@ Always launch it from a terminal:
 
 ## Example: calculate the largest known prime number:
 
-Try **calculating** the largest prime number with it. https://en.wikipedia.org/wiki/Largest_known_prime_number
+**Calculate** the largest prime number using ***mcalc***. https://en.wikipedia.org/wiki/Largest_known_prime_number
 
 ![mcalc](https://user-images.githubusercontent.com/19549703/164498824-fc521903-d376-4a63-9a78-52ddb58988d2.png)
 
@@ -72,5 +76,5 @@ Feel free to place requests for more functions in the "issues" section :P
 
 (C)2022 Nuno Ferreira
 
-Uses the Nuklear GUI toolkit 
+Uses the **Nuklear** GUI toolkit 
 https://github.com/Immediate-Mode-UI/Nuklear
