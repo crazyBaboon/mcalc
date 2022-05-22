@@ -10,6 +10,8 @@ Screenshot:
 
 If the result is longer than 34 digits, it will be displayed in the terminal.
 
+$$ Usage
+
 Some of the less obvious keys:
 
 "**Fn**" calculates the nth fibonacci number
