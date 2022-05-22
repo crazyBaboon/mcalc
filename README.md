@@ -10,7 +10,7 @@ Screenshot:
 
 If the result is longer than 34 digits, it will be displayed in the terminal.
 
-$$ Usage
+## Usage
 
 Some of the less obvious keys:
 
