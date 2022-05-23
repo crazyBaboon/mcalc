@@ -34,7 +34,7 @@ In order to compile ***mcalc***, you will need these two libraries installed:
 
 - GMP (https://gmplib.org/).
 
-On Linux Mint:
+On Linux Mint, install the dependencies using:
 
     sudo apt install libglfw-dev libgmp-dev
 
