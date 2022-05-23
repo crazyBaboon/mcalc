@@ -40,7 +40,7 @@ On Linux Mint:
 
 Campilation command on UNIX-like:
 
-    gcc main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
+    clang main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc
 
 Always launch it from a terminal:
 
