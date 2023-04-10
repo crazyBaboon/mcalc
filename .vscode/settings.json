@@ -1,0 +1,6 @@
+{
+    "files.associations": {
+        "nuklear.h": "c",
+        "gmp.h": "c"
+    }
+}

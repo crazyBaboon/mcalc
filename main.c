@@ -7,11 +7,12 @@
  * the terms of the GNU General Public License version 2.
  * 
  * Compile & run on Unix-like systems:
- * clang main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc 
+ * clang main.c operations.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp && ./mcalc 
  */
 
 #include <stddef.h>
 #include <stdio.h>
+#include <stdbool.h>
 #include <stdlib.h>
 #include <string.h>
 #include <math.h>
@@ -27,41 +28,16 @@
 #define NK_IMPLEMENTATION
 #define NK_GLFW_GL2_IMPLEMENTATION
 #define NK_KEYSTATE_BASED_INPUT
+
 #include "nuklear.h"
 #include "nuklear_glfw_gl2.h"
+#include "operations.h"
 
 #define WINDOW_WIDTH 290
 #define WINDOW_HEIGHT 250
 #define MAX_DIGITS_DISPLAY 34
 
-enum {SUM, SUBTRACT, MULTIPLY, DIVIDE, POW, FACTORIAL, PRIMORIAL, FIBONACCI};
 
-void check_if_calculation_is_new(nk_bool*    start_new_calc_flag, 
-                                 char*       text_to_display_on_screen,
-                                 const char* digit)
-{
-    /* Check if this is a new calculation */
-    if (*start_new_calc_flag == nk_true)
-    {
-        *start_new_calc_flag = nk_false;
-
-        strcpy(text_to_display_on_screen, "");
-        strcat(text_to_display_on_screen, digit);
-    }
-}
-
-void process_digit_key(nk_bool*    start_new_calc_flag, 
-                 char*       text_to_display_on_screen,
-                 char*       text,
-                 const char* digit)
-{
-                strcat(text, digit);
-                strcat(text_to_display_on_screen, digit);
-
-                check_if_calculation_is_new(start_new_calc_flag, 
-                                            text_to_display_on_screen, 
-                                            digit);
-}
 
 static void error_callback(int e, const char *d)
 {printf("Error %d: %s\n", e, d);}
@@ -76,18 +52,17 @@ int main(void)
     int width = 0, height = 0;
 
     /* Calculator variables */
-    nk_bool start_new_calc_flag = nk_true;
+    bool start_new_calc_flag = true;
     mpz_t operand_1m, operand_2m;
     static size_t number_of_digits_to_display = 0;
     static char text_to_display_on_screen[128] = "";
     char* text;
-    int Operation = SUM;
+    int Operation = FACTORIAL;
     char* result_str;
     static char* box_buffer;
     text       = malloc(3212);
     box_buffer = malloc(3212);
     result_str = malloc(3212);
-
 
     /* GLFW */
     glfwSetErrorCallback(error_callback);
@@ -102,11 +77,9 @@ int main(void)
     /* GUI */
     ctx = nk_glfw3_init(win, NK_GLFW3_INSTALL_CALLBACKS);
 
-    {
         struct nk_font_atlas *atlas;
         nk_glfw3_font_stash_begin(&atlas);
         nk_glfw3_font_stash_end();
-    }
 
     while (!glfwWindowShouldClose(win))
     {
@@ -133,398 +106,35 @@ int main(void)
 
             nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "7"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "7");
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "7");
             if (nk_button_label(ctx, "8"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "8");
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "8");
             if (nk_button_label(ctx, "9"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "9");
-            if (nk_button_label(ctx, "x"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans x ");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, " x ");
-                }
-                Operation = MULTIPLY;
-            }   
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "9");
             if (nk_button_label(ctx, "C"))
-            {
-                strcpy(text, "");       
-                strcpy(text_to_display_on_screen, "");
-                strcpy(box_buffer, "");
-            }   
-            if (nk_button_label(ctx, "np"))
-            {
-                mpz_t result_m;
-                mpz_init(result_m); /* initialize result_m */
-
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcpy(text_to_display_on_screen, "");
-                }
-
-                puts("----------");
-                printf("Next prime greater than\n");
-                mpz_out_str(stdout,10,operand_1m); 
-                printf("\nis:\n");
-                mpz_nextprime(result_m, operand_1m);
-
-                number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
-				text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
-				box_buffer = realloc(box_buffer, number_of_digits_to_display + 2);
-				result_str = realloc(result_str, number_of_digits_to_display + 2);
-				
-                gmp_sprintf(result_str, "%Zd", result_m);
-                strcpy(box_buffer, result_str);
-
-                mpz_out_str(stdout,10,result_m); 
-                printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
-
-                if (number_of_digits_to_display > MAX_DIGITS_DISPLAY)
-                {
-                    sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
-                }
-                start_new_calc_flag = nk_true;
-                mpz_set(operand_1m, result_m);
-                mpz_clear(result_m); /* we don't need 'result_m' anymore */
-            }   
+                reset_button(text, text_to_display_on_screen, box_buffer);
                
             nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "4"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "4");
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "4");
             if (nk_button_label(ctx, "5"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "5");
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "5");
             if (nk_button_label(ctx, "6"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "6");
-            if (nk_button_label(ctx, "-"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans - ");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, " - ");
-                }
-                Operation = SUBTRACT;
-            }
-            if (nk_button_label(ctx, "^"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans ^ ");
-                }
-                else
-                {                    
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, " ^ ");
-                }
-                Operation = POW;
-            }
-            if (nk_button_label(ctx, "p?"))
-            {
-                if (start_new_calc_flag == nk_false)
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcpy(text_to_display_on_screen, "");
-                }
-
-                puts("----------");
-                mpz_out_str(stdout,10,operand_1m); 
-                printf("\nis:\n");
-                switch (mpz_probab_prime_p(operand_1m, 20))
-                {
-                    case 0:
-                    {
-                        printf("definately not prime.\n");
-                        strcpy(text_to_display_on_screen, "definately NOT prime");
-                        strcpy(box_buffer, "");
-                        break;
-                    }
-                    case 1:
-                    {
-                        printf("is probably a prime.\n");
-                        strcpy(text_to_display_on_screen, "probably prime.");
-                        strcpy(box_buffer, "");
-                        break;
-                    }					 
-                    case 2:
-                    {
-                        printf("is definately prime.\n");
-                        strcpy(text_to_display_on_screen, "definately prime.");
-                        strcpy(box_buffer, "");
-                        break;
-                    }
-                }
-                start_new_calc_flag = nk_true; 
-            }   
-
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "6");
+            
             nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "1"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "1");
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "1");
             if (nk_button_label(ctx, "2"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "2");
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "2");
             if (nk_button_label(ctx, "3"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "3");
-            if (nk_button_label(ctx, "+"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
+                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "3");
 
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans + ");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, " + ");
-                }
-                Operation = SUM;
-            } 
             if (nk_button_label(ctx, "!"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans!");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, "! ");
-                }
-                Operation = FACTORIAL;
-            }
-            if (nk_button_label(ctx, "#"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans#");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, "# ");
-                }
-                Operation = PRIMORIAL;
-            }              
-            nk_layout_row_static(ctx, 30, 40, 6);
-            if (nk_button_label(ctx, "0"))
-                process_digit_key(&start_new_calc_flag, text_to_display_on_screen, text, "0");
-            if (nk_button_label(ctx, ""))
-            {
-            }
-
+			    factorial_button(&start_new_calc_flag, operand_1m, text, text_to_display_on_screen, &Operation); 
             if (nk_button_label(ctx, "="))
-            {
-                mpz_t result_m;
-                mpz_init(result_m); /* initialize result_m */
+                equals_button(&start_new_calc_flag, operand_1m, operand_2m, text, text_to_display_on_screen, &Operation, box_buffer, result_str, &number_of_digits_to_display);
 
-                if (start_new_calc_flag == nk_false)
-                {
-                    mpz_init_set_str (operand_2m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, " = ");
-                }
-                else
-                {
-                    strcpy(text, "");
-                }
-
-                switch (Operation)
-                {
-                    case MULTIPLY:
-                    {
-                        mpz_mul(result_m, operand_1m, operand_2m);                    
-                        printf("%lu x %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                        break;
-                    }
-                    case DIVIDE:
-                    {
-                        if (mpz_cmp_ui(operand_2m, 0) == 0) /* don't divide by 0 */
-                        {
-                            strcpy(text_to_display_on_screen, "");
-                            strcat(text_to_display_on_screen, "You are dividing by 0! Noooooo");
-                            printf("You are dividing by 0! Don't do it.\n");
-                        }
-                        else
-                        {
-                            mpz_div(result_m, operand_1m, operand_2m);
-                            printf("%lu / %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                        }
-                        break;
-                    }
-                    case SUBTRACT:
-                    {
-                        mpz_sub(result_m, operand_1m, operand_2m);
-                        printf("%lu - %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                        break;
-                    }                
-                    case POW:
-                    {
-                        mpz_pow_ui(result_m, operand_1m, mpz_get_ui(operand_2m));   
-                        printf("%lu ^ %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m)); 
-                        break;
-                    }                
-                    case SUM:
-                    {
-                        mpz_add(result_m, operand_1m, operand_2m);
-                        printf("%lu + %lu =\n", mpz_get_ui(operand_1m), mpz_get_ui(operand_2m));
-                        break;
-                    }
-                    case FACTORIAL:
-                    {
-                        printf("%lu! =\n", mpz_get_ui(operand_1m));
-                        mpz_fac_ui(result_m, mpz_get_ui(operand_1m));
-                        break;
-                    }
-                    case PRIMORIAL:
-                    {
-                        printf("%lu# =\n", mpz_get_ui(operand_1m));
-                        mpz_primorial_ui(result_m, mpz_get_ui(operand_1m));
-                        break;
-                    }
-                    case FIBONACCI:
-                    {
-                        printf("%luth Fibonacci term is:\n", mpz_get_ui(operand_1m));
-                        mpz_fib_ui(result_m, mpz_get_ui(operand_1m));
-                        break;
-                    }
-                }
-
-                number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
-                text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
-                box_buffer = realloc(box_buffer, number_of_digits_to_display + 2);
-                result_str = realloc(result_str, number_of_digits_to_display + 2);
-
-                gmp_sprintf(result_str, "%Zd", result_m);
-                strcpy(box_buffer, result_str);
-
-                puts("----------");
-
-                mpz_out_str(stdout,10,result_m); 
-                printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
-
-                if (number_of_digits_to_display > 36)
-                {
-                    sprintf(box_buffer, "Wow %lu digits!", number_of_digits_to_display);
-                }
-                mpz_set(operand_1m, result_m);
-                mpz_clear(result_m); /* we don't need 'result_m' anymore */
-                start_new_calc_flag = nk_true;
-            }
-            if (nk_button_label(ctx, "/"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "ans / ");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, " / ");
-                }
-                Operation = DIVIDE;
-            }  
-            if (nk_button_label(ctx, "sq()"))
-            {
-                mpz_t result_m;
-                mpz_init(result_m); /* initialize result_m */
-
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcpy(text_to_display_on_screen, "");
-                }
-
-                puts("----------");
-                printf("sqrt() of \n");
-                mpz_out_str(stdout,10,operand_1m); 
-                printf("\nis:\n");
-                mpz_sqrt(result_m, operand_1m);
-
-                number_of_digits_to_display = mpz_sizeinbase(result_m, 10);
-                text       = realloc(text, number_of_digits_to_display + 2); /* +2 for eventual negative sign and null terminator */
-                box_buffer = realloc(box_buffer, number_of_digits_to_display + 2);
-                result_str = realloc(result_str, number_of_digits_to_display + 2);
-
-                gmp_sprintf(result_str, "%Zd", result_m);
-                strcpy(box_buffer, result_str);
-
-                mpz_out_str(stdout,10,result_m); 
-                printf("\nNumber_of_digits is %lu.\n", number_of_digits_to_display);
-
-                if (number_of_digits_to_display > 36)
-                {
-                    sprintf(text_to_display_on_screen, "Wow %lu digits!", number_of_digits_to_display);
-                }
-                start_new_calc_flag = nk_true;
-                mpz_set(operand_1m, result_m);
-                mpz_clear(result_m); /* we don't need 'result_m' anymore */
-            }                
-            if (nk_button_label(ctx, "Fn"))
-            {
-                if (start_new_calc_flag == nk_true)
-                {
-                    start_new_calc_flag = nk_false;
-
-                    strcpy(text_to_display_on_screen, "");
-                    strcat(text_to_display_on_screen, "Fib?");
-                }
-                else
-                {
-                    mpz_init_set_str (operand_1m, text, 10);
-                    strcpy(text, "");
-                    strcat(text_to_display_on_screen, " Fib? ");
-                }
-                Operation = FIBONACCI;
-            } 
         }
         nk_end(ctx);
 
