@@ -55,14 +55,14 @@ int main(void)
     bool start_new_calc_flag = true;
     mpz_t operand_1m, operand_2m;
     static size_t number_of_digits_to_display = 0;
-    static char text_to_display_on_screen[128] = "";
-    char* text;
+    static char text_screen[128] = "";
+    char* text_terminal;
     int Operation = FACTORIAL;
     char* result_str;
     static char* box_buffer;
-    text       = malloc(3212);
-    box_buffer = malloc(3212);
-    result_str = malloc(3212);
+    text_terminal = malloc(1028);
+    box_buffer = malloc(1028);
+    result_str = malloc(1028);
 
     /* GLFW */
     glfwSetErrorCallback(error_callback);
@@ -93,7 +93,7 @@ int main(void)
             NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
         {
             nk_layout_row_static(ctx, 30, 200, 1);
-            nk_label(ctx, text_to_display_on_screen, NK_TEXT_LEFT);
+            nk_label(ctx, text_screen, NK_TEXT_LEFT);
 
 
             nk_layout_row_static(ctx, 30, 260, 1);
@@ -106,34 +106,34 @@ int main(void)
 
             nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "7"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "7");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "7");
             if (nk_button_label(ctx, "8"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "8");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "8");
             if (nk_button_label(ctx, "9"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "9");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "9");
             if (nk_button_label(ctx, "C"))
-                reset_button(text, text_to_display_on_screen, box_buffer);
+                reset_button(text_terminal, text_screen, box_buffer);
                
             nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "4"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "4");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "4");
             if (nk_button_label(ctx, "5"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "5");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "5");
             if (nk_button_label(ctx, "6"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "6");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "6");
             
             nk_layout_row_static(ctx, 30, 40, 6);
             if (nk_button_label(ctx, "1"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "1");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "1");
             if (nk_button_label(ctx, "2"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "2");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "2");
             if (nk_button_label(ctx, "3"))
-                process_digit_button(&start_new_calc_flag, text_to_display_on_screen, text, "3");
+                process_digit_button(&start_new_calc_flag, text_screen, text_terminal, "3");
 
             if (nk_button_label(ctx, "!"))
-			    factorial_button(&start_new_calc_flag, operand_1m, text, text_to_display_on_screen, &Operation); 
+			    factorial_button(&start_new_calc_flag, operand_1m, text_terminal, text_screen, &Operation); 
             if (nk_button_label(ctx, "="))
-                equals_button(&start_new_calc_flag, operand_1m, operand_2m, text, text_to_display_on_screen, &Operation, box_buffer, result_str, &number_of_digits_to_display);
+                equals_button(&start_new_calc_flag, operand_1m, operand_2m, text_terminal, text_screen, &Operation, box_buffer, result_str, &number_of_digits_to_display);
 
         }
         nk_end(ctx);
