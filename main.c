@@ -139,9 +139,7 @@ int main(void)
         nk_end(ctx);
 
         /* Draw */
-        glfwGetWindowSize(win, &width, &height);
         glViewport(0, 0, width, height);
-        glClear(GL_COLOR_BUFFER_BIT);
         glClearColor(0.10f, 0.18f, 0.24f, 1.0f);
         nk_glfw3_render(NK_ANTI_ALIASING_ON);
         glfwSwapBuffers(win);

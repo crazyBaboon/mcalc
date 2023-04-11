@@ -1,6 +1,7 @@
 {
     "files.associations": {
         "nuklear.h": "c",
-        "gmp.h": "c"
+        "gmp.h": "c",
+        "nuklear_glfw_gl2.h": "c"
     }
 }
