@@ -42,53 +42,18 @@
 static void error_callback(int e, const char *d)
 {printf("Error %d: %s\n", e, d);}
 
-
-
-int main(void)
+void nuklear_logic(struct nk_context *ctx,
+    bool start_new_calc_flag,
+    mpz_t operand_1m, 
+    mpz_t operand_2m,
+    size_t number_of_digits_to_display,
+    char* text_screen,
+    char* text_terminal,
+    int Operation,
+    char* result_str,
+    char* box_buffer)
 {
-    /* Platform */
-    static GLFWwindow *win;
-    struct nk_context *ctx;
-    int width = 0, height = 0;
-
-    /* Calculator variables */
-    bool start_new_calc_flag = true;
-    mpz_t operand_1m, operand_2m;
-    static size_t number_of_digits_to_display = 0;
-    static char text_screen[128] = "";
-    char* text_terminal;
-    int Operation = FACTORIAL;
-    char* result_str;
-    static char* box_buffer;
-    text_terminal = malloc(1028);
-    box_buffer = malloc(1028);
-    result_str = malloc(1028);
-
-    /* GLFW */
-    glfwSetErrorCallback(error_callback);
-    if (!glfwInit()) {
-        fprintf(stdout, "[GFLW] failed to init!\n");
-        exit(1);
-    }
-    win = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "mcalc", NULL, NULL);
-    glfwMakeContextCurrent(win);
-    glfwGetWindowSize(win, &width, &height);
-
-    /* GUI */
-    ctx = nk_glfw3_init(win, NK_GLFW3_INSTALL_CALLBACKS);
-
-        struct nk_font_atlas *atlas;
-        nk_glfw3_font_stash_begin(&atlas);
-        nk_glfw3_font_stash_end();
-
-    while (!glfwWindowShouldClose(win))
-    {
-        /* Input */
-        glfwPollEvents();
-        nk_glfw3_new_frame();
-
-        /* GUI */
-        if (nk_begin(ctx, "mcalc", nk_rect(0, -20, WINDOW_WIDTH, WINDOW_HEIGHT + 30),
+    if (nk_begin(ctx, "mcalc", nk_rect(0, -20, WINDOW_WIDTH, WINDOW_HEIGHT + 30),
             NK_WINDOW_BORDER|NK_WINDOW_MOVABLE|NK_WINDOW_SCALABLE|
             NK_WINDOW_MINIMIZABLE|NK_WINDOW_TITLE))
         {
@@ -137,6 +102,66 @@ int main(void)
 
         }
         nk_end(ctx);
+}
+
+
+
+int main(void)
+{
+    /* Platform */
+    static GLFWwindow *win;
+    struct nk_context *ctx;
+    int width = 0, height = 0;
+
+    /* Calculator variables */
+    bool start_new_calc_flag = true;
+    mpz_t operand_1m, operand_2m;
+    static size_t number_of_digits_to_display = 0;
+    //static char text_screen[128] = "";
+    char* text_screen;
+    char* text_terminal;
+    int Operation = FACTORIAL;
+    char* result_str;
+    static char* box_buffer;
+    text_screen = malloc(1028);
+    text_terminal = malloc(1028);
+    box_buffer = malloc(1028);
+    result_str = malloc(1028);
+
+    /* GLFW */
+    glfwSetErrorCallback(error_callback);
+    if (!glfwInit()) {
+        fprintf(stdout, "[GFLW] failed to init!\n");
+        exit(1);
+    }
+    win = glfwCreateWindow(WINDOW_WIDTH, WINDOW_HEIGHT, "mcalc", NULL, NULL);
+    glfwMakeContextCurrent(win);
+    glfwGetWindowSize(win, &width, &height);
+
+    /* GUI */
+    ctx = nk_glfw3_init(win, NK_GLFW3_INSTALL_CALLBACKS);
+
+        struct nk_font_atlas *atlas;
+        nk_glfw3_font_stash_begin(&atlas);
+        nk_glfw3_font_stash_end();
+
+    while (!glfwWindowShouldClose(win))
+    {
+        /* Input */
+        glfwPollEvents();
+        nk_glfw3_new_frame();
+
+        /* GUI */
+        nuklear_logic(ctx, 
+                      start_new_calc_flag,
+                      operand_1m, 
+                      operand_2m,
+                      number_of_digits_to_display,
+                      text_screen,
+                      text_terminal,
+                      Operation,
+                      result_str,
+                      box_buffer);
 
         /* Draw */
         glViewport(0, 0, width, height);

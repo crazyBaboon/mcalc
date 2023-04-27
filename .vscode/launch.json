@@ -1,0 +1,11 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        "type": "gdb",
+        "request": "launch",
+        "name": "Debug",
+        "program": "/home/pinto/Documents/mcalc/mcalc",
+        "args": [],
+        "cwd": "${workspaceFolder}"
+    ]
+}
