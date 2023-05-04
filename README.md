@@ -40,7 +40,7 @@ On Linux Mint, install the dependencies using:
 
 Campilation command on UNIX-like:
 
-    clang main.c -std=c99 -Wall -Wextra -pedantic -O2 -o mcalc -lglfw -lGL -lm -lGLU -lgmp
+    make
 
 Always launch it from a terminal:
 
